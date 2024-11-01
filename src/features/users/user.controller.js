@@ -4,16 +4,16 @@ import jwt from "jsonwebtoken";
 const model = new userModel();
 
 export class userController {
-  signup = async(req, res) => {
+  signup = async (req, res) => {
     try {
       const user = await model.addUser(req.body);
-      res.status(200).send(user);
+      res.status(200).send({ message: "User created successfully", user });
     } catch (error) {
       res.status(500).send("Internal server error");
     }
   };
 
-  signin = async(req, res) => {
+  signin = async (req, res) => {
     try {
       const result = await model.verifyUser(req.body);
       if (!result) {
@@ -29,7 +29,7 @@ export class userController {
           expiresIn: "1h",
         }
       );
-      res.cookie("jwtToken",token);
+      res.cookie("jwtToken", token);
       res.status(200).send("Login Successfull");
     } catch (error) {
       res.status(500).send("Internal server error");
