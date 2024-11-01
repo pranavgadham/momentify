@@ -1,4 +1,4 @@
-import { hashPassword,compareHashedPassword } from "../util/hashPassword.js";
+import { hashPassword,compareHashedPassword } from "../../util/hashPassword.js";
 const Users = [];
 
 export class userModel{
