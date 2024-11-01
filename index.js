@@ -8,8 +8,10 @@ import userRoutes from './src/users/user.routes.js';
 
 const app = express();
 
-app.use(express.urlencoded({extended:true}));
-app.use(cookieParser);
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
+dotenv.config();
+app.use(express.json());
 
 // --------------Routes---------------------
 app.use('/api',userRoutes);
@@ -17,6 +19,6 @@ app.use('/api/posts',postRoutes);
 app.use('/api/comments',commentRoutes);
 app.use('/api/likes',likeRoutes);
 
-dotenv.config();
+
 
 export default app;
