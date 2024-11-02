@@ -28,7 +28,6 @@ export class postModel {
 
   deletePostById = (id, userId) => {
     const index = posts.findIndex((p) => p.id == id && p.userId == userId);
-    console.log(index);
     if (index !== -1) {
       const deletedPost = posts.splice(index, 1)[0];
       return deletedPost;
