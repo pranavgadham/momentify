@@ -7,9 +7,18 @@ export class userController {
   signup = async (req, res) => {
     try {
       const user = await model.addUser(req.body);
-      res.status(200).send({ message: "User created successfully", user });
+      if (!user) {
+        return res
+          .status(400)
+          .send({ success: false, message: "User not created" });
+      }
+      res
+        .status(200)
+        .send({ success: true, message: "User created successfully", user });
     } catch (error) {
-      res.status(500).send("Internal server error");
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
     }
   };
 
@@ -17,9 +26,11 @@ export class userController {
     try {
       const result = await model.verifyUser(req.body);
       if (!result) {
-        return res.status(404).send("User not found");
+        return res
+          .status(404)
+          .send({ success: false, message: "User not found" });
       }
-      const token = jwt.sign(
+      const tocken = jwt.sign(
         {
           userId: result.id,
           email: result.email,
@@ -29,10 +40,50 @@ export class userController {
           expiresIn: "1h",
         }
       );
-      res.cookie("jwtToken", token);
-      res.status(200).send("Login Successfull");
+      await model.addToken(result.id, tocken);
+      res.cookie("jwttocken", tocken);
+      res.status(200).send({ success: true, message: "Login Successfull" });
     } catch (error) {
-      res.status(500).send("Internal server error");
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
+    }
+  };
+
+  logout = async (req, res) => {
+    try {
+      const result = await model.removeToken(
+        req.user.userId,
+        req.cookies.jwttocken
+      );
+      if (!result) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Logout failed" });
+      }
+      res.clearCookie("jwttocken");
+      res.status(200).send({ success: true, message: "Logout successfull" });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
+    }
+  };
+
+  logoutAllDevices = async (req, res) => {
+    try {
+      const result = await model.removeAllToken(req.user.userId);
+      if (!result) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Logout failed" });
+      }
+      res.clearCookie("jwttocken");
+      res.status(200).send({ success: true, message: "Logout successfull" });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
     }
   };
 }
