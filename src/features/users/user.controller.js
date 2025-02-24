@@ -86,4 +86,63 @@ export class userController {
         .send({ success: false, message: "Internal server error" });
     }
   };
+
+  getUserDetails = async (req, res) => {
+    const userId = req.params.userId;
+    try {
+      const user = await model.getUserById(userId);
+      if (!user) {
+        return res
+          .status(400)
+          .send({ success: false, message: "User not found" });
+      }
+      res.status(200).send({ success: true, message: "User found", user });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
+    }
+  };
+
+  getAllUserDetails = async (req, res) => {
+    try {
+      const users = await model.getAllUsers();
+      if (!users) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Users not found" });
+      }
+      res.status(200).send({ success: true, users });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
+    }
+  };
+
+  updateUserDetails = async (req, res) => {
+    const userId = req.params.userId;
+    try {
+      let user = null;
+      if(req.body.password){
+        return res
+          .status(401)
+          .send({ success: false, message: "Can not use this route to update the password" });
+      }else{
+        user = await model.updateUser(userId, req.body);
+      }
+      if (!user) {
+        return res
+          .status(400)
+          .send({ success: false, message: "User not found" });
+      }
+      res
+        .status(200)
+        .send({ success: true, message: "User updated", user });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
+    }
+  };
 }

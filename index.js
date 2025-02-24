@@ -15,7 +15,7 @@ dotenv.config();
 app.use(express.json());
 
 // --------------Routes---------------------
-app.use("/api", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/posts", jwtAuth, postRoutes);
 app.use("/api/comments", jwtAuth, commentRoutes);
 app.use("/api/likes", jwtAuth, likeRoutes);

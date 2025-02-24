@@ -41,21 +41,20 @@ export class userModel {
     try {
       const user = await User.findById(userId);
 
-      if(user){
+      if (user) {
         user.tocken.push(tocken);
         await user.save();
       }
-      
     } catch (error) {
       console.log(error);
     }
   };
 
-  verifyToken = async (userId,tocken) => {
+  verifyToken = async (userId, tocken) => {
     try {
       const user = await User.findById(userId);
-      if(user){
-        if(user.tocken.includes(tocken)){
+      if (user) {
+        if (user.tocken.includes(tocken)) {
           return true;
         }
       }
@@ -65,10 +64,10 @@ export class userModel {
     }
   };
 
-  removeToken = async (userId,tocken) => {
+  removeToken = async (userId, tocken) => {
     try {
       const user = await User.findById(userId);
-      if(user){
+      if (user) {
         user.tocken = user.tocken.filter((t) => t !== tocken);
         await user.save();
       }
@@ -81,7 +80,7 @@ export class userModel {
   removeAllToken = async (userId) => {
     try {
       const user = await User.findById(userId);
-      if(user){
+      if (user) {
         user.tocken = [];
         await user.save();
       }
@@ -90,4 +89,59 @@ export class userModel {
       console.log(error);
     }
   };
+
+  getUserById = async (userId) => {
+    try {
+      const user = await User.findById(userId, {
+        name: 1,
+        email: 1,
+        gender: 1,
+        avatar: 1,
+        friends: 1
+      });
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getAllUsers = async () => {
+    try {
+      const users = await User.find(
+        {},
+        {
+          name: 1,
+          email: 1,
+          gender: 1,
+          avatar: 1,
+          friends: 1
+        }
+      );
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  updateUser = async (userId, data) => {
+    try {
+      const user = await User.findById(userId);
+      if(data.name){
+        user.name = data.name;
+      }
+      if(data.email){
+        user.email = data.email;
+      }
+      if(data.gender){
+        user.gender = data.gender;
+      }
+      if(user.avatar){
+        user.avatar = data.avatar
+      }
+      return user.save();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 }
