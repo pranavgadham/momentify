@@ -1,48 +1,70 @@
 //id,userid,caption,imageURL
-const posts = [];
+import Post from "./post.schema.js";
+
+
 export class postModel {
-  getAllPost = () => {
-    return posts;
-  };
-
-  getPostById = (id) => {
-    const post = posts.find((p) => p.id == id);
-    return post;
-  };
-
-  getPostByUserId = (userId) => {
-    const usersPost = posts.filter((p) => p.userId == userId);
-    return usersPost;
-  };
-
-  createPost = (caption, imageUrl, userId) => {
-    const post = {
-      id: Date.now(),
-      userId: userId,
-      caption: caption,
-      imageUrl: imageUrl,
-    };
-    posts.push(post);
-    return post;
-  };
-
-  deletePostById = (id, userId) => {
-    const index = posts.findIndex((p) => p.id == id && p.userId == userId);
-    if (index !== -1) {
-      const deletedPost = posts.splice(index, 1)[0];
-      return deletedPost;
+  getAllPost = async() => {
+    try {
+      const posts = await Post.find({});
+      return posts;
+    } catch (error) {
+      console.log(error);
     }
-    return null;
   };
 
-  updatePostById = (id, userId, caption, imageUrl) => {
-    const post = posts.find((p) => p.id == id && p.userId == userId);
-
-    if (post) {
-      if (caption !== undefined) post.caption = caption;
-      if (imageUrl !== undefined) post.imageUrl = imageUrl;
+  getPostById = async(id) => {
+    try {
+      const post = await Post.findById(id);
       return post;
+    } catch (error) {
+      console.log(error);
     }
-    return null;
+  };
+
+  getPostByUserId = async(userId) => {
+    try {
+      const posts = await Post.find({creater: userId});
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  createPost = async(caption, imageUrl, userId) => {
+    try {
+      const post = new Post({
+        caption: caption,
+        imageURL: imageUrl,
+        creater: userId,
+      });
+      return await post.save();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  deletePostById = async(id, userId) => {
+    try {
+      const post = await Post.findOne({_id: id, creater: userId});
+      if(post){
+        await Post.findByIdAndDelete(id);
+      }
+      return post;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  updatePostById = async(id, userId, caption, imageUrl) => {
+    try {
+      const post = await Post.findOne({_id: id, creater: userId});
+      if(post){
+        if(post.caption) post.caption = caption;
+        if( post.imageURL) post.imageURL = imageUrl;      
+        return await post.save();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

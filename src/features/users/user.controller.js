@@ -79,7 +79,7 @@ export class userController {
           .send({ success: false, message: "Logout failed" });
       }
       res.clearCookie("jwttocken");
-      res.status(200).send({ success: true, message: "Logout successfull" });
+      res.status(200).send({ success: true, message: "Logout successfull from all devices" });
     } catch (error) {
       res
         .status(500)
@@ -112,7 +112,7 @@ export class userController {
           .status(400)
           .send({ success: false, message: "Users not found" });
       }
-      res.status(200).send({ success: true, users });
+      res.status(200).send({ success: true,message:"Users found", users });
     } catch (error) {
       res
         .status(500)

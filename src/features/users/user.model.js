@@ -3,7 +3,6 @@ import {
   compareHashedPassword,
 } from "../../util/hashPassword.js";
 import User from "./user.schema.js";
-import mongoose from "mongoose";
 
 export class userModel {
   addUser = async ({ name, email, password, gender, avatar }) => {

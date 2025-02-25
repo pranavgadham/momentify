@@ -8,10 +8,10 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    like:{
+    like:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
+    }],
     comments:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema({
     }
 });
 
-const postModel = mongoose.model('Post', postSchema);
+const Post = mongoose.model('Post', postSchema);
 
-export default postModel;
+
+export default Post;
