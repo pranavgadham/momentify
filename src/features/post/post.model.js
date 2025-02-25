@@ -1,9 +1,7 @@
-//id,userid,caption,imageURL
 import Post from "./post.schema.js";
 
-
 export class postModel {
-  getAllPost = async() => {
+  getAllPost = async () => {
     try {
       const posts = await Post.find({});
       return posts;
@@ -12,7 +10,7 @@ export class postModel {
     }
   };
 
-  getPostById = async(id) => {
+  getPostById = async (id) => {
     try {
       const post = await Post.findById(id);
       return post;
@@ -21,16 +19,16 @@ export class postModel {
     }
   };
 
-  getPostByUserId = async(userId) => {
+  getPostByUserId = async (userId) => {
     try {
-      const posts = await Post.find({creater: userId});
+      const posts = await Post.find({ creater: userId });
       return posts;
     } catch (error) {
       console.log(error);
     }
   };
 
-  createPost = async(caption, imageUrl, userId) => {
+  createPost = async (caption, imageUrl, userId) => {
     try {
       const post = new Post({
         caption: caption,
@@ -43,10 +41,10 @@ export class postModel {
     }
   };
 
-  deletePostById = async(id, userId) => {
+  deletePostById = async (id, userId) => {
     try {
-      const post = await Post.findOne({_id: id, creater: userId});
-      if(post){
+      const post = await Post.findOne({ _id: id, creater: userId });
+      if (post) {
         await Post.findByIdAndDelete(id);
       }
       return post;
@@ -55,16 +53,17 @@ export class postModel {
     }
   };
 
-  updatePostById = async(id, userId, caption, imageUrl) => {
+  updatePostById = async (id, userId, caption, imageUrl) => {
     try {
-      const post = await Post.findOne({_id: id, creater: userId});
-      if(post){
-        if(post.caption) post.caption = caption;
-        if( post.imageURL) post.imageURL = imageUrl;      
+      const post = await Post.findOne({ _id: id, creater: userId });
+      if (post) {
+        if (post.caption) post.caption = caption;
+        if (post.imageURL) post.imageURL = imageUrl;
         return await post.save();
       }
     } catch (error) {
       console.log(error);
     }
   };
+
 }

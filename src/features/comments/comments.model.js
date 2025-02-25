@@ -1,38 +1,49 @@
-//id,userid,postid,content
-const comments = [];
+import Comment from "./comments.schema.js";
 
 export class commentModel {
-    getComments = (postId) => {
-        const postComments = comments.filter(c => c.postId == postId);
-        return postComments;
+  getComments = async (postId) => {
+    try {
+      const comments = await Comment.find({ post: postId });
+      return comments;
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    postComment = (userId,postId,content) => {
-        const comment = {
-            id: Date.now(),
-            userId: userId,
-            postId: postId,
-            content: content
-        }
-        comments.push(comment);
-        return comment;
+  postComment = async (userId, postId, content) => {
+    try {
+      const comment = new Comment({
+        user: userId,
+        post: postId,
+        comment: content,
+      });
+      return await comment.save();
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    deleteComment = (id,userId) => {
-        const index = comments.findIndex( c => c.id == id && c.userId == userId );
-        if(index != -1){
-            const deletedComment = comments.splice(index,1)[0];
-            return deletedComment;
-        }
-        return null
+  deleteComment = async (id, userId) => {
+    try {
+      const comment = await Comment.findOne({ _id: id, user: userId });
+      if (comment) {
+        await Comment.findByIdAndDelete(id);
+      }
+      return comment;
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    updateComment = (id,userId,content) => {
-        const comment = comments.find(c => c.id == id && c.userId == userId);
-        if(comment){
-            comment.content = content
-            return comment;
-        }
-        return null;
-    } 
+  updateComment = async (id, userId, content) => {
+    try {
+      const comment = await Comment.findOne({ _id: id, user: userId });
+      if (comment) {
+        comment.comment = content;
+        return await comment.save();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }

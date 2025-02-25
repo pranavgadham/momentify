@@ -96,7 +96,7 @@ export class userModel {
         email: 1,
         gender: 1,
         avatar: 1,
-        friends: 1
+        friends: 1,
       });
       return user;
     } catch (error) {
@@ -113,7 +113,7 @@ export class userModel {
           email: 1,
           gender: 1,
           avatar: 1,
-          friends: 1
+          friends: 1,
         }
       );
       return users;
@@ -125,22 +125,21 @@ export class userModel {
   updateUser = async (userId, data) => {
     try {
       const user = await User.findById(userId);
-      if(data.name){
+      if (data.name) {
         user.name = data.name;
       }
-      if(data.email){
+      if (data.email) {
         user.email = data.email;
       }
-      if(data.gender){
+      if (data.gender) {
         user.gender = data.gender;
       }
-      if(user.avatar){
-        user.avatar = data.avatar
+      if (user.avatar) {
+        user.avatar = data.avatar;
       }
       return user.save();
     } catch (error) {
       console.log(error);
     }
   };
-
 }

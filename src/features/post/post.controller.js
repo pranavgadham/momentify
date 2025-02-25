@@ -61,18 +61,16 @@ export class postController {
     }
   };
 
-  createUserPost = async(req, res) => {
+  createUserPost = async (req, res) => {
     const userId = req.user.userId;
     const { caption, imageUrl } = req.body;
     try {
       const post = await model.createPost(caption, imageUrl, userId);
       if (!post) {
-        return res
-          .status(400)
-          .send({
-            success: false,
-            message: "Error occurred while creating the post",
-          });
+        return res.status(400).send({
+          success: false,
+          message: "Error occurred while creating the post",
+        });
       }
       res
         .status(200)
@@ -84,7 +82,7 @@ export class postController {
     }
   };
 
-  deletePost = async(req, res) => {
+  deletePost = async (req, res) => {
     const userId = req.user.userId;
     const id = req.params.id;
     try {
@@ -108,7 +106,7 @@ export class postController {
     }
   };
 
-  updatePost = async(req, res) => {
+  updatePost = async (req, res) => {
     const userId = req.user.userId;
     const id = req.params.id;
     const { caption, imageUrl } = req.body;

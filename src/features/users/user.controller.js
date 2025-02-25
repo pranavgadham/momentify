@@ -79,7 +79,12 @@ export class userController {
           .send({ success: false, message: "Logout failed" });
       }
       res.clearCookie("jwttocken");
-      res.status(200).send({ success: true, message: "Logout successfull from all devices" });
+      res
+        .status(200)
+        .send({
+          success: true,
+          message: "Logout successfull from all devices",
+        });
     } catch (error) {
       res
         .status(500)
@@ -112,7 +117,7 @@ export class userController {
           .status(400)
           .send({ success: false, message: "Users not found" });
       }
-      res.status(200).send({ success: true,message:"Users found", users });
+      res.status(200).send({ success: true, message: "Users found", users });
     } catch (error) {
       res
         .status(500)
@@ -124,11 +129,14 @@ export class userController {
     const userId = req.params.userId;
     try {
       let user = null;
-      if(req.body.password){
+      if (req.body.password) {
         return res
           .status(401)
-          .send({ success: false, message: "Can not use this route to update the password" });
-      }else{
+          .send({
+            success: false,
+            message: "Can not use this route to update the password",
+          });
+      } else {
         user = await model.updateUser(userId, req.body);
       }
       if (!user) {
@@ -136,9 +144,7 @@ export class userController {
           .status(400)
           .send({ success: false, message: "User not found" });
       }
-      res
-        .status(200)
-        .send({ success: true, message: "User updated", user });
+      res.status(200).send({ success: true, message: "User updated", user });
     } catch (error) {
       res
         .status(500)
