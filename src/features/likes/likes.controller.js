@@ -3,46 +3,32 @@ import { likeModel } from "./likes.model.js";
 const model = new likeModel();
 
 export class likeController {
-  like = (req, res) => {
-    const userId = req.user.userId;
-    const postId = req.params.postId;
+  getLikes = async(req, res) => {
+    const id = req.params.id;
     try {
-      const like = model.likePost(postId, userId);
-      if (!like) {
-        res.status(400).send("Error while liking the post");
+      const likes = await model.getLikes(id);
+      if (!likes) {
+        res.status(400).send({success: false, message: "Post not found"});
       }
-      res.status(200).send({ message: "Liked the post", like });
-    } catch (error) {
-      res.status(500).send("Internal server error");
-    }
-  };
-
-  getLikes = (req, res) => {
-    const postId = req.params.postId;
-    try {
-      const users = model.getLikes(postId);
-      if (!users) {
-        res.status(400).send("Post not found");
-      }
-      res.status(200).send(users);
+      res.status(200).send({success: true, message: "Likes for this post/comment", likes});
     } catch {
-      res.status(500).send("Internal server error");
+      res.status(500).send({success: false, message:"Internal server error"});
     }
   };
 
-  toggel = (req, res) => {
+  toggel = async(req, res) => {
     const userId = req.user.userId;
-    const postId = req.params.postId;
+    const id = req.params.id;
     try {
-      const like = model.toggelLikeStatus(postId, userId);
+      const like = await model.toggelLikeStatus(id, userId);
       if (!like) {
-        res.status(400).send("Post not found");
+        res.status(400).send({success: false, message:"Post or Comment not found"});
       }
       res
         .status(200)
-        .send({ message: "Toggeled the like status successfully", like });
+        .send({success: true, message: "Toggeled the like status successfully"});
     } catch (error) {
-      res.status(500).send("Internal server error");
+      res.status(500).send({success: false, message:"Internal server error"});
     }
   };
 }

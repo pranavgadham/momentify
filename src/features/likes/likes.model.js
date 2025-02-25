@@ -1,28 +1,49 @@
-//id,userid,postid
-const likes = [];
+import Post from '../post/post.schema.js';
+import Comment from '../comments/comments.schema.js';
 
 export class likeModel {
-  getLikes = (postId) => {
-    const postLikes = likes.filter((l) => l.postId == postId);
-    return postLikes;
-  };
 
-  likePost = (postId, userId) => {
-    const like = {
-      id: Date.now(),
-      postId: postId,
-      userId: userId,
-      status: true,
-    };
-    likes.push(like);
-    return like;
-  };
-
-  toggelLikeStatus = (postId, userId) => {
-    const like = likes.find((l) => l.postId == postId && l.userId == userId);
-    if (like) {
-      like.status = !like.status;
+  getLikes = async (id) => {
+    try {
+      let likes;
+      const post = await Post.findById(id).populate('like');
+      if (post) {
+        likes = post.like;
+      } else {
+        const comment = await Comment.findById(id).populate('like');
+        if (comment) {
+          likes = comment.like;
+        } else {
+          throw new Error('No post or comment found with the given id');
+        }
+      }
+      return likes;
+    } catch (error) {
+      console.log(error);
     }
-    return like;
+  };
+
+  toggelLikeStatus = async (id, userId) => {
+    try {
+      let entity = await Post.findById(id);
+      if (!entity) {
+        entity = await Comment.findById(id);
+      }
+      if (!entity) {
+        throw new Error('No post or comment found with the given id');
+      }
+
+      const likeIndex = entity.like.indexOf(userId);
+      if (likeIndex === -1) {
+        entity.like.push(userId);
+      } else {
+        entity.like.splice(likeIndex, 1);
+      }
+
+      await entity.save();
+      return entity.like;
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
