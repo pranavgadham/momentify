@@ -24,12 +24,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: "",
   },
-  friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Friends",
-    },
-  ],
   tocken: [
     {
       type: String,
