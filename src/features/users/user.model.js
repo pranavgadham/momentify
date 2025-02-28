@@ -142,4 +142,16 @@ export class userModel {
       console.log(error);
     }
   };
+
 }
+
+const getUserByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ email: email });
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default getUserByEmail;

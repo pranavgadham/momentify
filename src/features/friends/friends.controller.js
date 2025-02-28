@@ -61,7 +61,7 @@ export default class friendController{
     };
 
     sendRequest = async (req, res) => {
-        const request = await model.createFriendRequest(req.user.userId, req.params.reciverId);
+        const request = await model.createFriendRequest(req.user.userId, req.params.receiverId);
         try{
             if(!request){
                 return res.status(404).json({success: false, message: "Error while requesting"});

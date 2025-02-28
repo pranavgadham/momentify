@@ -5,7 +5,7 @@ export default class FriendModel {
     getFriends = async (userId) => {
         try {
             const friends = await Friend.find({
-                $or: [{ sender: userId }, { reciver: userId }],
+                $or: [{ sender: userId }, { receiver: userId }],
                 status: "accepted"
             })
             
@@ -19,7 +19,7 @@ export default class FriendModel {
     getPendingRequests = async (userId) => {
         try {
             const pendingRequest = await Friend.find({
-                $or: [{ sender: userId }, { reciver: userId }],
+                $or: [{ sender: userId }, { receiver: userId }],
                 status: "pending"
             });
 
@@ -53,11 +53,11 @@ export default class FriendModel {
         }
     };
 
-    createFriendRequest = async (sender, reciver) => {
+    createFriendRequest = async (sender, receiver) => {
         try{
             const request = new Friend({
                 sender: sender,
-                reciver: reciver
+                receiver: receiver
             })
 
             return await request.save();

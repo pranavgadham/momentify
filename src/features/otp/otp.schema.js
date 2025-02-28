@@ -13,10 +13,15 @@ const otpSchema = new mongoose.Schema({
     expiresAt:{
         type: Date,
         required: true
+    },
+    status:{
+        type: String,
+        enum: ['pending','verified'],
+        default: 'pending'
     }
 });
 
-const otpModel = mongoose.model('Otp', otpSchema);
+const Otp = mongoose.model('Otp', otpSchema);
 
-export default otpModel;
+export default Otp;
     
