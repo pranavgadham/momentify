@@ -16,7 +16,7 @@ This is a simple social media API built using Express.js and MongoDB, allowing u
 
 The full API documentation is available using Swagger UI.
 
-- [API Documentation](http://localhost:3000/api-docs)
+- [API Documentation](https://momentify.onrender.com/api-docs)
 
 ## Setup Instructions
 
