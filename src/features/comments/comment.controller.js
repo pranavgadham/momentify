@@ -76,7 +76,7 @@ export class commentController {
       if (!updatedComment) {
         return res
           .status(400)
-          .send({ success: false, message: "Error while deleting comment" });
+          .send({ success: false, message: "Error while updating comment" });
       }
       res.status(200).send({
         success: true,

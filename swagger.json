@@ -1,0 +1,679 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Momentify API",
+    "description": "API Documentation for Momentify",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    { "name": "Users", "description": "User authentication and profile management" },
+    { "name": "Posts", "description": "Post-related operations" },
+    { "name": "Friends", "description": "Friendship management" },
+    { "name": "OTP", "description": "OTP based password reset" },
+    { "name": "Comments", "description": "Comment management" },
+    { "name": "Likes", "description": "Like operations" }
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "description": "User signup",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "gender": {
+                  "example": "any"
+                },
+                "avatar": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "User not created"
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": ["Users"],
+        "description": "User signin",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login Successfull"
+          },
+          "400": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/get-details/{userId}": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Get user details by ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/users/get-all-details": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Get all user details",
+        "responses": {
+          "200": {
+            "description": "Users found"
+          },
+          "400": {
+            "description": "Users not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "description": "User logout",
+        "responses": {
+          "200": {
+            "description": "Logout successfull"
+          },
+          "400": {
+            "description": "Logout failed"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/users/logout-all-devices": {
+      "post": {
+        "tags": ["Users"],
+        "description": "User logout from all devices",
+        "responses": {
+          "200": {
+            "description": "Logout successfull from all devices"
+          },
+          "400": {
+            "description": "Logout failed"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/users/update-details/{userId}": {
+      "put": {
+        "tags": ["Users"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "null"
+                },
+                "email": {
+                  "example": "null"
+                },
+                "gender": {
+                   "example": "null"
+                },
+                "avatar": {
+                   "example": "null"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated"
+          },
+          "400": {
+            "description": "Can not use this route to update the password"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/posts/all": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "To fetch all the posts",
+        "responses": {
+          "200": {
+            "description": "Found all posts"
+          },
+          "400": {
+            "description": "No post found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "To fetch specific post by ID",
+        "responses": {
+          "200": {
+            "description": "Post found"
+          },
+          "400": {
+            "description": "Post not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Posts"],
+        "description": "To delete specific post by ID",
+        "responses": {
+         "200": {
+            "description": "Post deleted successfully"
+          },
+          "400": {
+            "description": "Post does not exist or try signin with same account to delete post"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Posts"],
+        "description": "To update specific post by ID",
+        "responses": {
+          "200": {
+            "description": "Post updated successfully"
+          },
+          "400": {
+            "description": "Post does not exist or try signin with same account to update post"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/posts/user/{userId}": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "To fetch posts of specific user by ID",
+        "responses": {
+          "200": {
+            "description": "User post found"
+          },
+          "400": {
+            "description": "Post not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/posts/": {
+      "post": {
+        "tags": ["Posts"],
+        "description": "To create new post",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "caption": {
+                  "example": "any"
+                },
+                "imageUrl": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post created successfully"
+          },
+          "400": {
+            "description": "Error occurred while creating the post"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/otp/send": {
+      "post": {
+        "tags": ["OTP"],
+        "description": "This route sends the OTP",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/otp/verify": {
+      "post": {
+        "tags": ["OTP"],
+        "description": "This route verifies the OTP",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "otp": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/otp/reset-password": {
+      "post": {
+        "tags": ["OTP"],
+        "description": "Used to reset password",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/comments/{postId}": {
+      "get": {
+        "tags":["Comments"],
+        "description": "Get the comments of a specific post",
+        "responses": {
+         "200": {
+            "description": "Comments found"
+          },
+          "400": {
+            "description": "Post not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      },
+      "post": {
+        "tags":["Comments"],
+        "description": "Make the comments of a specific post",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Commented successfully"
+          },
+          "400": {
+            "description": "Error occurred while commenting"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}": {
+      "delete": {
+        "tags":["Comments"],
+        "description": "To fetch an individual comment by ID",
+        "responses": {
+          "200": {
+            "description": "Comment deleted"
+          },
+          "400": {
+            "description": "Comment not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      },
+      "put": {
+        "tags":["Comments"],
+        "description": "To change the comment by ID",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Error while updating comment"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "likes/toggle/{id}": {
+      "post": {
+        "tags":["Likes"],
+        "description": "To toggel between like and unlike",
+        "responses": {
+          "200": {
+            "description": "Toggeled the like status successfully"
+          },
+          "400": {
+            "description": "Post or Comment not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "likes/{id}": {
+      "post": {
+        "tags":["Likes"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Post or Comment not found"
+          },
+          "400": {
+            "description": "Likes for this post/comment"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/friends/get-friends/{userld}": {
+      "get": {
+        "tags":["Friends"],
+        "description": "To get all the friends of a user",
+        "parameters": [
+          {
+            "name": "userld",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found friends"
+          },
+          "400": {
+            "description": "No friends found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/friends/get-pending-requests": {
+      "get": {
+        "tags":["Friends"],
+        "description": "To fetch all the pending requests",
+        "responses": {
+          "200": {
+            "description": "Found pending requests"
+          },
+          "400": {
+            "description": "No pending requests found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/friends/toggle-friendship/{friendId}": {
+      "post": {
+        "tags":["Friends"],
+        "description": "To toggel between pending and rejecte state of friendship",
+        "parameters": [
+          {
+            "name": "friendId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Friendship status updated"
+          },
+          "400": {
+            "description": "Friend not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/friends/response-to-request/{friendId}": {
+      "post": {
+        "tags":["Friends"],
+        "description": "To accept or reject the friend request",
+        "parameters": [
+          {
+            "name": "friendId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Friendship status updated"
+          },
+          "400": {
+            "description": "Friend not found"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    },
+    "/friends/send-request/{receiverId}": {
+      "post": {
+        "tags":["Friends"],
+        "description": "To send friend request to other user",
+        "parameters": [
+          {
+            "name": "receiverId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request sent"
+          },
+          "400": {
+            "description": "Error while requesting"
+          },
+          "401": {
+            "description": "JWT must be provided"
+          }
+        }
+      }
+    }
+  }
+}

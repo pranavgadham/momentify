@@ -27,7 +27,7 @@ export class userController {
       const result = await model.verifyUser(req.body);
       if (!result) {
         return res
-          .status(404)
+          .status(400)
           .send({ success: false, message: "User not found" });
       }
       const tocken = jwt.sign(
@@ -131,7 +131,7 @@ export class userController {
       let user = null;
       if (req.body.password) {
         return res
-          .status(401)
+          .status(400)
           .send({
             success: false,
             message: "Can not use this route to update the password",

@@ -14,7 +14,7 @@ export const jwtAuth = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      msg: { name: "JsonWebTokenError", message: "jwt must be provided" },
+      msg: { name: "JsonWebTokenError", message: "JWT must be provided" },
     });
   }
 };

@@ -9,7 +9,7 @@ export default class friendController{
         try {
             const friends = await model.getFriends(userId);
             if(!friends){
-                return res.status(404).json({success: false, message: "No friends found"});
+                return res.status(400).json({success: false, message: "No friends found"});
             }
             res.status(200).json({success: true, message:"Found friends", data: friends});
 
@@ -24,7 +24,7 @@ export default class friendController{
             const pendingRequests = await model.getPendingRequests(userId);
 
             if(!pendingRequests){
-                return res.status(200).json({success: true, message: "No pending requests found"});
+                return res.status(400).json({success: true, message: "No pending requests found"});
             }
             res.status(200).json({success: true, message: "Found pending requests", pendingRequests});
         } catch (error) {
@@ -37,7 +37,7 @@ export default class friendController{
         try {
             const result = await model.toggleFriendship(friendId);
             if(!result){
-                return res.status(404).json({success: false, message: "Friend not found"});
+                return res.status(400).json({success: false, message: "Friend not found"});
             }
             res.status(200).json({success: true, message: "Friendship status updated", result});
         } catch (error) {
@@ -51,7 +51,7 @@ export default class friendController{
         try {
             const result = await model.responseToRequest(friendId,status);
             if(!result){
-                return res.status(404).json({success: false, message: "Friend not found"});
+                return res.status(400).json({success: false, message: "Friend not found"});
             }
             res.status(200).json({success: true, message: "Friendship status updated", result});
             
@@ -64,7 +64,7 @@ export default class friendController{
         const request = await model.createFriendRequest(req.user.userId, req.params.receiverId);
         try{
             if(!request){
-                return res.status(404).json({success: false, message: "Error while requesting"});
+                return res.status(400).json({success: false, message: "Error while requesting"});
             }
             return res.status(200).json({success: true, message: "Request sent"});
 

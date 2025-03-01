@@ -8,7 +8,7 @@ export class likeController {
     try {
       const likes = await model.getLikes(id);
       if (!likes) {
-        res.status(400).send({success: false, message: "Post not found"});
+        res.status(400).send({success: false, message: "Post or Comment not found"});
       }
       res.status(200).send({success: true, message: "Likes for this post/comment", likes});
     } catch {
