@@ -5,10 +5,10 @@
     "description": "API Documentation for Momentify",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "momentify.onrender.com",
   "basePath": "/api",
   "schemes": [
-    "http"
+    "https"
   ],
   "tags": [
     { "name": "Users", "description": "User authentication and profile management" },
