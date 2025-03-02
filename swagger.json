@@ -233,6 +233,14 @@
       "get": {
         "tags": ["Posts"],
         "description": "To fetch specific post by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Post found"
@@ -248,6 +256,14 @@
       "delete": {
         "tags": ["Posts"],
         "description": "To delete specific post by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
          "200": {
             "description": "Post deleted successfully"
@@ -263,6 +279,29 @@
       "put": {
         "tags": ["Posts"],
         "description": "To update specific post by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "caption": {
+                  "example": "any"
+                },
+                "imageUrl": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Post updated successfully"
