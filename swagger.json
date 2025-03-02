@@ -7,11 +7,12 @@
   },
   "host": "momentify.onrender.com",
   "basePath": "/api",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "tags": [
-    { "name": "Users", "description": "User authentication and profile management" },
+    {
+      "name": "Users",
+      "description": "User authentication and profile management"
+    },
     { "name": "Posts", "description": "Post-related operations" },
     { "name": "Friends", "description": "Friendship management" },
     { "name": "OTP", "description": "OTP based password reset" },
@@ -190,10 +191,10 @@
                   "example": "null"
                 },
                 "gender": {
-                   "example": "null"
+                  "example": "null"
                 },
                 "avatar": {
-                   "example": "null"
+                  "example": "null"
                 }
               }
             }
@@ -265,7 +266,7 @@
           }
         ],
         "responses": {
-         "200": {
+          "200": {
             "description": "Post deleted successfully"
           },
           "400": {
@@ -319,6 +320,14 @@
       "get": {
         "tags": ["Posts"],
         "description": "To fetch posts of specific user by ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "User post found"
@@ -461,10 +470,18 @@
     },
     "/comments/{postId}": {
       "get": {
-        "tags":["Comments"],
+        "tags": ["Comments"],
         "description": "Get the comments of a specific post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
-         "200": {
+          "200": {
             "description": "Comments found"
           },
           "400": {
@@ -476,9 +493,16 @@
         }
       },
       "post": {
-        "tags":["Comments"],
+        "tags": ["Comments"],
         "description": "Make the comments of a specific post",
+        
         "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -507,8 +531,16 @@
     },
     "/comments/{commentId}": {
       "delete": {
-        "tags":["Comments"],
+        "tags": ["Comments"],
         "description": "To fetch an individual comment by ID",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Comment deleted"
@@ -522,9 +554,15 @@
         }
       },
       "put": {
-        "tags":["Comments"],
+        "tags": ["Comments"],
         "description": "To change the comment by ID",
         "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -553,8 +591,16 @@
     },
     "likes/toggle/{id}": {
       "post": {
-        "tags":["Likes"],
+        "tags": ["Likes"],
         "description": "To toggel between like and unlike",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Toggeled the like status successfully"
@@ -570,8 +616,16 @@
     },
     "likes/{id}": {
       "post": {
-        "tags":["Likes"],
-        "description": "",
+        "tags": ["Likes"],
+        "description": "To like an post/comment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Post or Comment not found"
@@ -585,13 +639,13 @@
         }
       }
     },
-    "/friends/get-friends/{userld}": {
+    "/friends/get-friends/{userId}": {
       "get": {
-        "tags":["Friends"],
+        "tags": ["Friends"],
         "description": "To get all the friends of a user",
         "parameters": [
           {
-            "name": "userld",
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -612,7 +666,7 @@
     },
     "/friends/get-pending-requests": {
       "get": {
-        "tags":["Friends"],
+        "tags": ["Friends"],
         "description": "To fetch all the pending requests",
         "responses": {
           "200": {
@@ -629,7 +683,7 @@
     },
     "/friends/toggle-friendship/{friendId}": {
       "post": {
-        "tags":["Friends"],
+        "tags": ["Friends"],
         "description": "To toggel between pending and rejecte state of friendship",
         "parameters": [
           {
@@ -654,7 +708,7 @@
     },
     "/friends/response-to-request/{friendId}": {
       "post": {
-        "tags":["Friends"],
+        "tags": ["Friends"],
         "description": "To accept or reject the friend request",
         "parameters": [
           {
@@ -691,7 +745,7 @@
     },
     "/friends/send-request/{receiverId}": {
       "post": {
-        "tags":["Friends"],
+        "tags": ["Friends"],
         "description": "To send friend request to other user",
         "parameters": [
           {
