@@ -1,4 +1,3 @@
-import { compare } from "bcrypt";
 import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
